@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "1067522670479",
+    "project_id": "shoppinglaptopapp",
+    "storage_bucket": "shoppinglaptopapp.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1067522670479:android:c6660383399eb94cd955fa",
+        "android_client_info": {
+          "package_name": "com.example.adminlaptopapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1067522670479-d6vvql8o71fqu5inm3iqd5a9vd8tq57j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBFClVTfkd58hGOu9OqOqH-ZXnf2d3_8sQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1067522670479-d6vvql8o71fqu5inm3iqd5a9vd8tq57j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1067522670479:android:4ee3ba79a99a72b4d955fa",
+        "android_client_info": {
+          "package_name": "com.example.shoppinglaptopapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1067522670479-d6vvql8o71fqu5inm3iqd5a9vd8tq57j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBFClVTfkd58hGOu9OqOqH-ZXnf2d3_8sQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1067522670479-d6vvql8o71fqu5inm3iqd5a9vd8tq57j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
