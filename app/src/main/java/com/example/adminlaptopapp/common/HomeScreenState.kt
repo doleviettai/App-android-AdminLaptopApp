@@ -24,6 +24,7 @@ data class HomeScreenState(
     val products: String? = null,
     val banners: String? = null,
     val orders: String? = null,
+    val totalRevenue: String? = null,
     val lineChartOrders : List<OrderDataModels>? = emptyList()
 ) {
 

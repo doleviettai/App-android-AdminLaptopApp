@@ -46,9 +46,11 @@ import com.example.adminlaptopapp.domain.models.OrderDataModels
 import com.example.adminlaptopapp.presentation.navigations.Routes
 
 import android.view.ViewGroup
+import androidx.compose.foundation.layout.Row
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.viewinterop.AndroidView
+import com.example.adminlaptopapp.presentation.screens.product.formatCurrencyVND
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.Description
 import com.github.mikephil.charting.data.Entry
@@ -70,6 +72,7 @@ fun HomeScreenUi(
     val homeState by viewModel.homeScreenState.collectAsStateWithLifecycle()
     val configuration = LocalConfiguration.current
     val isLandscape = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
+    val totalRevenue = homeState.totalRevenue ?: "0"
 
     if (homeState.isLoading) {
         Box(modifier = Modifier.fillMaxSize()) {
@@ -158,6 +161,38 @@ fun HomeScreenUi(
                             navController.navigate(Routes.GetAllOrderScreen)
                         }
                     )
+                }
+
+                item(span = { GridItemSpan(2) }){
+                    Card(
+                        modifier = Modifier.fillMaxWidth().clickable(onClick = { navController.navigate(Routes.GetAllUserScreen) }),
+                        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+                        shape = RoundedCornerShape(10.dp),
+                        colors = CardDefaults.cardColors(
+                            // màu light orange
+                            containerColor = Color(0xFFFFE0B2)
+                        )
+                    ) {
+                        Column(modifier = Modifier.padding(16.dp)) {
+                            Text(
+                                text = "Doanh thu: ${formatCurrencyVND(totalRevenue.toDouble())} vnd",
+                                style = MaterialTheme.typography.titleLarge
+                            )
+
+                            Spacer(modifier = Modifier.height(8.dp))
+
+                            Divider(thickness = 1.dp)
+
+                            Spacer(modifier = Modifier.height(8.dp))
+
+                            Text(
+                                text = "Xem tất cả người dùng App Laptop Store",
+                                style = MaterialTheme.typography.bodyLarge,
+                                maxLines = 5,
+                                overflow = TextOverflow.Ellipsis
+                            )
+                        }
+                    }
                 }
 
                 item(span = { GridItemSpan(2) }) {

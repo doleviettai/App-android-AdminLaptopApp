@@ -59,6 +59,7 @@ import com.example.adminlaptopapp.domain.useCase.UpdateBannerUseCase
 import com.example.adminlaptopapp.domain.useCase.UpdateCategoryUseCase
 import com.example.adminlaptopapp.domain.useCase.UpdateOrderUseCase
 import com.example.adminlaptopapp.domain.useCase.UpdateProductUseCase
+import com.example.adminlaptopapp.presentation.screens.product.formatCurrencyVND
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -1063,7 +1064,8 @@ class AdminLaptopViewModel @Inject constructor(
         drawRowWithLine("Ngày đặt hàng", order.date)
 
         // Giá đơn - bottom end (right-bottom corner)
-        val priceText = String.format("Giá đơn: %.0f VNĐ", order.totalPrice)
+//        val priceText = String.format("Giá đơn: %.0f VNĐ", order.totalPrice)
+        val priceText = String.format("Giá đơn: ${formatCurrencyVND(order.totalPrice)} VNĐ")
         val textWidth = boldPaint.measureText(priceText)
         val priceY = pageHeight - 40f // 40 px margin from bottom
         canvas.drawText(priceText, pageWidth - padding - textWidth, priceY, boldPaint)
@@ -1169,8 +1171,15 @@ class AdminLaptopViewModel @Inject constructor(
                 countAllCategoryUseCase.countAllCategory(),
                 countAllBannerUseCase.countAllBanner(),
                 countAllOrderUseCase.countAllOrder(),
+                getAllOrderUseCase.getAllOrder(),
                 getAllOrderByLineChar.getAllOrderByLineChar()
-            ) { productsResult, categoriesResult, bannersResult, ordersResult, chartOrdersResult ->
+            ) { results: Array<Any?> ->
+                val productsResult = results[0] as ResultState<String>
+                val categoriesResult = results[1] as ResultState<String>
+                val bannersResult = results[2] as ResultState<String>
+                val ordersResult = results[3] as ResultState<String>
+                val ordersListResult = results[4] as ResultState<List<OrderDataModels>>
+                val chartOrdersResult = results[5] as ResultState<List<OrderDataModels>>
 
                 when {
                     listOf(
@@ -1178,6 +1187,7 @@ class AdminLaptopViewModel @Inject constructor(
                         categoriesResult,
                         bannersResult,
                         ordersResult,
+                        ordersListResult,
                         chartOrdersResult
                     ).any { it is ResultState.Error } -> {
                         val firstError = listOf(
@@ -1185,6 +1195,7 @@ class AdminLaptopViewModel @Inject constructor(
                             categoriesResult,
                             bannersResult,
                             ordersResult,
+                            ordersListResult,
                             chartOrdersResult
                         ).first { it is ResultState.Error } as ResultState.Error
                         HomeScreenState(
@@ -1198,6 +1209,7 @@ class AdminLaptopViewModel @Inject constructor(
                         categoriesResult,
                         bannersResult,
                         ordersResult,
+                        ordersListResult,
                         chartOrdersResult
                     ).any { it is ResultState.Loading } -> {
                         HomeScreenState(
@@ -1209,7 +1221,11 @@ class AdminLaptopViewModel @Inject constructor(
                             categoriesResult is ResultState.Success &&
                             bannersResult is ResultState.Success &&
                             ordersResult is ResultState.Success &&
+                            ordersListResult is ResultState.Success &&
                             chartOrdersResult is ResultState.Success -> {
+
+                        val totalRevenueValue = ordersListResult.data.sumOf { it.totalPrice }
+
                         HomeScreenState(
                             isLoading = false,
                             errorMessage = null,
@@ -1217,7 +1233,8 @@ class AdminLaptopViewModel @Inject constructor(
                             products = productsResult.data,
                             banners = bannersResult.data,
                             orders = ordersResult.data,
-                            lineChartOrders = chartOrdersResult.data // <- THÊM TRƯỜNG NÀY VÀO HomeScreenState
+                            totalRevenue = totalRevenueValue.toString(),
+                            lineChartOrders = chartOrdersResult.data
                         )
                     }
 
@@ -1226,12 +1243,12 @@ class AdminLaptopViewModel @Inject constructor(
                         errorMessage = "Unknown error"
                     )
                 }
-
             }.collect { state ->
                 _homeScreenState.value = state
             }
         }
     }
+
 
 
 

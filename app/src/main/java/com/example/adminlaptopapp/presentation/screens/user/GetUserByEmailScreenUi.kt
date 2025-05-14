@@ -117,7 +117,7 @@ fun GetUserByEmailScreenUi(
                 val checkFullName = "$checkFirstName $checkLastName"
                 val checkPhone = if (user.phoneNumber.isBlank()) "Chưa điền" else user.phoneNumber
                 val checkAddress = if (user.address.isBlank()) "Chưa điền" else user.address
-                val checkImage = if (user.profileImage.isBlank()) Icons.Default.Person else user.profileImage
+                val checkImage = if (user.profileImage.isEmpty()) Icons.Default.Person else user.profileImage
 
                 Column(
                     modifier = Modifier
@@ -136,12 +136,23 @@ fun GetUserByEmailScreenUi(
                             .border(2.dp, colorResource(id = R.color.orange), CircleShape)
                             .padding(8.dp)
                     ) {
-                        AsyncImage(
-                            model = checkImage,
-                            contentDescription = null,
-                            modifier = Modifier.fillMaxSize(),
-                            contentScale = ContentScale.Crop
-                        )
+                        if (user.profileImage.isNullOrBlank()) {
+                            // Dùng ImageVector khi không có ảnh
+                            Icon(
+                                imageVector = Icons.Default.Person,
+                                contentDescription = null,
+                                modifier = Modifier.fillMaxSize()
+                            )
+                        } else {
+                            // Dùng AsyncImage khi có URL
+                            AsyncImage(
+                                model = user.profileImage,
+                                contentDescription = null,
+                                modifier = Modifier.fillMaxSize(),
+                                contentScale = ContentScale.Crop
+                            )
+                        }
+
                     }
 
                     Spacer(modifier = Modifier.height(24.dp))

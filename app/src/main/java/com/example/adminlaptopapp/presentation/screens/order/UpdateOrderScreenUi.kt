@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Divider
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.FileDownload
@@ -52,6 +53,7 @@ import com.example.adminlaptopapp.R
 import com.example.adminlaptopapp.domain.models.OrderDataModels
 import com.example.adminlaptopapp.presentation.navigations.Routes
 import com.example.adminlaptopapp.presentation.screens.product.formatCurrencyVND
+import com.example.adminlaptopapp.presentation.utils.showNotification
 import com.example.adminlaptopapp.presentation.viewModels.AdminLaptopViewModel
 import kotlinx.coroutines.launch
 
@@ -99,6 +101,15 @@ fun UpdateOrderScreenUi(
             Toast.makeText(context, updateOrderState.value.errorMessage ?: "Lỗi không xác định", Toast.LENGTH_SHORT).show()
         } else if (updateOrderState.value.ordersData != null) {
             Toast.makeText(context, "Cập nhật đơn hàng thành công", Toast.LENGTH_SHORT).show()
+
+
+            showNotification(
+                context = context,
+                title = "Cập nhật đơn hàng",
+                message = "Đơn hàng $postalCode của ${getOrderByPostalCode.value.ordersData?.firstName} ${getOrderByPostalCode.value.ordersData?.lastName} đã được cập nhật thành công",
+                channelId = "order_channel",
+            )
+
             navController.navigate(Routes.GetAllOrderScreen)
         }
     }
@@ -205,14 +216,23 @@ fun UpdateOrderScreenUi(
                             }
 
                             InfoRow("Tên đơn hàng", nameUp.value)
+                            Divider(modifier = Modifier.fillMaxWidth(), color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f))
                             InfoRow("Mã bưu chính", postalCodeUp.value)
+                            Divider(modifier = Modifier.fillMaxWidth(), color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f))
                             InfoRow("Số lượng", quantityUp.value)
+                            Divider(modifier = Modifier.fillMaxWidth(), color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f))
                             InfoRow("Email", emailUp.value)
+                            Divider(modifier = Modifier.fillMaxWidth(), color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f))
                             InfoRow("Địa chỉ", addressUp.value)
+                            Divider(modifier = Modifier.fillMaxWidth(), color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f))
                             InfoRow("Họ tên", "${firstNameUp.value} ${lastNameUp.value}")
+                            Divider(modifier = Modifier.fillMaxWidth(), color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f))
                             InfoRow("Địa chỉ chi tiết", detail_addressUp.value)
+                            Divider(modifier = Modifier.fillMaxWidth(), color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f))
                             InfoRow("Thành phố", cityUp.value)
+                            Divider(modifier = Modifier.fillMaxWidth(), color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f))
                             InfoRow("Phương thức vận chuyển", transportUp.value)
+                            Divider(modifier = Modifier.fillMaxWidth(), color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f))
                             InfoRow("Phương thức thanh toán", payUp.value)
 
                             Row(
@@ -226,6 +246,13 @@ fun UpdateOrderScreenUi(
                                     style = MaterialTheme.typography.headlineMedium
                                 )
                             }
+
+                            Spacer(modifier = Modifier.height(16.dp))
+
+                            Divider(
+                                modifier = Modifier.fillMaxWidth(),
+                                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f)
+                            )
 
                             Spacer(modifier = Modifier.height(16.dp))
 
